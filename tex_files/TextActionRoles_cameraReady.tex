@@ -148,18 +148,24 @@ detailed spatio-temporal annotations of atomic actions.
 Recent works attempting to leverage the vast amount of textual data available with Internet images have 
 developed vision-specific semantic relatedness measures \cite{Rohrbach_CVPR10, Rohrbach_ECCV10} 
 to identify the link between part-based object attributes and image classes. 
-However such measures are derived from a generic corpus and are less suited for human actions/roles specific to a set of events. 
+However, such measures are derived from general text like Wikipedia, 
+and are therefore, less suited for language pertaining to human actions/roles specific to a set of events. 
 Other attempts to use textual descriptions in conjunction with attribute recognition were 
 presented in \cite{Berg_ECCV10, Parikh_CVPR11}. 
-\cite{Berg_ECCV10} is restricted to simple part-based attributes directly mentioned in the image description. 
+While, \cite{Berg_ECCV10} is restricted to simple part-based attributes directly mentioned in the image description,
 \cite{Parikh_CVPR11} involves humans in the loop to actively describe a group of images through visual attributes. 
 Another line of work \cite{Jia_ICCV11, Socher_CVPR10} jointly considers multiple modalities including text descriptions to perform image annotation, retrieval or segmentation. 
 \cite{Rohrbach_ECCV12}  transfers composite action videos to an attribute space enabling comparison with textual corpus. % describing activities in terms of these attributes. %While demonstrating a method to use external knowledge from text data, this method still requires video annotations to learn atomic action attribute classifiers. 
 
-\cite{Laptev_CVPR08, Marszalek_CVPR09, Cour_ECCV08, Everingham_BMVC06} uses time synchronized movie scripts or closed captions to identify video segments corresponding to specific actions. Again, these methods rely on presence of the action string in the script or use a pre-trained NLP classifier \cite{Laptev_CVPR08} and require temporal annotations. \cite{Yang_CVPR11} performs tag-prediction by using meta-data provided along with YouTube videos. \cite{Motwani_ECAI12} processes descriptions of action segments to automatically discover a set of action classes.
+Previous works like \cite{Laptev_CVPR08, Marszalek_CVPR09, Cour_ECCV08, Everingham_BMVC06} use 
+time-synchronized movie scripts or closed captions to identify video segments corresponding to specific actions. 
+Again, these methods rely on presence of the action label in the script or use a pre-trained classifier \cite{Laptev_CVPR08} 
+to identify the action-text in a script and require temporal annotations. 
+\cite{Yang_CVPR11} performs tag prediction by using meta data provided along with YouTube videos. 
+\cite{Motwani_ECAI12} processes descriptions of action segments to automatically discover a set of action classes.
 
 In contrast to the above methods, we learn models based on natural language
-descriptions which may not contain the action and role string. In particular, we
+descriptions which may not contain the action and role label. In particular, we
 construct a topic-model based measure specific to our task.
 \\
 \noindent \textbf{Action, role and event recognition} \cite{Izadinia_ECCV12,
@@ -178,28 +184,28 @@ However, we develop a model with latent action and role assignments to different
 \section{Our Approach} \label{sec:model_formualation}
 
 An overview of our system is shown in Fig.~\ref{fig:system}. We first use
-natural language video descriptions to train action and role models.  The scores
+natural language video descriptions to train action and role models.  The prediction probabilites
 from the model are then used to train event recognition models.
 
 In our setup, each training video is accompanied by a natural language
-description. This description might or might not contain the prominent actions 
+description, which might or might not contain the action label
 present in the video.
 Formally, we denote our training dataset by
 $\left(\langle x_1, t_1 \rangle, \dots , \langle x_n, t_n\rangle \right)$,
-where $x_i$ represents the videos belonging to different event classes and
-$t_i$ the corresponding textual descriptions. 
-Note that no textual descriptions are assumed to be present with the test
+where $x_i$ is a video belonging to different event classes and
+$t_i$ is the corresponding textual description. 
+No textual descriptions are present in the test
 data.
 
 We assume a fixed set of actions $\mathcal{A}$ and roles $\mathcal{R}$ and define additional variables $\langle y_i, z_i \rangle$ for each $x_i$. 
 Here, $y_i^a \in \{-1,0,1\}$ indicates whether the label of the video corresponding
 to the action $a$ is negative, unknown or positive. We define $z_i^r \in \{-1,0,1\}$ similarly for the role $r$. 
-Note that these variables are not observed in the training data.
+These variables are not observed in the training data.
 
 
 \subsection{Human tracklet extraction}
 Complex event videos are composed of many atomic actions and roles, 
-confined to smaller spatio-temporal regions. 
+confined to spatio temporal regions. 
 We attempt to incorporate this locality by representing a video as a bag of human tracklets. 
 We assume that the action or role occurring in a video would then correspond to one or more of these tracklets. 
 As illustrated in the corresponding section of Fig.~\ref{fig:system}, 
@@ -227,7 +233,7 @@ for the human tracklet $h$ respectively. The global weight is denoted
 by $w_g \in \mathbb{R}^{|\mathcal{A}| \times |\mathcal{R}| \times d_g}$, where $w_g(a,r) \in \mathbb{R}^{d_g}$
 gives the global weight for action $a$ and role $r$.
 Similarly, $w_{in.} \in \mathbb{R}^{|\mathcal{A}| \times |\mathcal{R}|}$ is the weight for joint 
-action and role assignment to a track, with $w_{in.}(a,r) \in \mathcal{R}$ corresponding to action $a$ and role $r$. 
+action and role assignment to a track, with $w_{in.}(a,r) \in \mathbb{R}$ corresponding to action $a$ and role $r$. 
 The weight $w_{ac.} \in \mathbb{R}^{|\mathcal{A}| \times d_{ac.}}$
 is the action-weight and $w_{ro.} \in \mathbb{R}^{|\mathcal{A}| \times d_{ro.}}$ is the role-weight. The action-weight corresponding
 to $a$ is given by $w_{ac.}(a) \in \mathbb{R}^{d_{ac.}}$ and the role-weight for role $r$ is given by $w_{ro.}(r) \in \mathbb{R}^{d_{ro.}}$.
@@ -371,7 +377,7 @@ uses video features. The complete details are shown in Sec. B of the supplementa
 \vspace*{-4pt}
 
 \subsection{Training event model}\label{sec:event_model}
-We use the action and role detection scores to perform video event
+We use the action and role detection probabilities to perform video event
 classification. The expected number of tracklets corresponding to different
 actions and roles are used as additional features along with the global video
 features to train a linear ensemble SVM. We use the same set of global video
@@ -381,11 +387,15 @@ in Sec.~\ref{sec:model_features} and finally treat the event classification
 score from these classifiers as global video features. Since only a small set
 of actions and roles are usually related to an event, we add an additional
 $L_1$ regularization term for the action and role feature weights to encourage
-only the relevant action and/or role scores to be selected.
+only the relevant action and/or role probabilities to be selected.
 
 \section{Experiments}
 
-We test our event, action and role classification models on the TRECVID-MED11 event kit videos. The dataset contains videos belonging to $15$ complex event classes. Each video is accompanied by a synopsis describing the events in the video, and few of them mention the atomic actions and objects present in the video. We use the same training and testing splits as \cite{Izadinia_ECCV12}. 
+We test our event, action and role classification models on the TRECVID-MED11 event kit videos. 
+The dataset contains videos belonging to $15$ complex event classes. 
+Each video is accompanied by a synopsis describing the events in the video, 
+and few of them mention the atomic actions and objects present in the video. 
+We use the same training and testing splits as \cite{Izadinia_ECCV12}. 
 
 \subsection{Implementation details}\label{sec:implementation_details}
 We define \textit{crude} action labels $\tilde{y}_i$ and role labels
@@ -400,12 +410,18 @@ Sec.~\ref{sec:NLP}. The value of $\tau$ is set to consider the top $300$ and
 $30$ videos closest to the action and role description respectively as
 potential positives.
 
-The CRF allows any arbitrary set of actions and roles. In our experiments, we train separate models for each action and role. While training an action model, we consider the relation of the action to all the roles including a null role. Thus, the action model makes a latent role assignment to a tracklet while identifying the action in the tracklet. Similarly, each role model performs latent action assignment to the tracklets while identifying presence of the role in the tracklet. In practice, this makes the learning more tractable and also performs better than training a single model considering all actions and roles together.
+The CRF allows any arbitrary set of actions and roles. In our experiments, 
+we train separate models for each action and role. 
+While training an action model, we consider the relation of the action to all the roles including a null role. Thus, the action model makes a latent role assignment to a tracklet while identifying the action in the tracklet. Similarly, each role model performs latent action assignment to the tracklets while identifying presence of the role in the tracklet. In practice, this makes the learning more tractable and also performs better than training a single model considering all actions and roles together.
 
 \subsection{Action and role classification} \label{sec:results_actionRoles}
-A set of $62$ atomic events were used in \cite{Izadinia_ECCV12}. Some of these events were non-human actions like vehicle movement. We select a subset of $46$ classes which involve one or more humans. We choose only these action classes which are directly mentioned at least once in the training data descriptions. We consider a set of $13$ roles appearing in different events, as listed in Tab. \ref{tab:results_role}. Each video in the test set is annotated with the actions and roles present in it for evaluation. 
+A set of $62$ atomic events were used in \cite{Izadinia_ECCV12}. Some of these events were non-human actions like vehicle movement.
+We select a subset of $46$ classes which involve one or more humans. We choose only these action classes which are directly mentioned 
+at least once in the training data descriptions. We consider a set of $13$ roles appearing in different events, 
+as listed in Tab. \ref{tab:results_role}. Each video in the test set is annotated with the actions and roles present in it for evaluation. 
   
-The action and role classification performance is evaluated by computing the average precision on the testing data as shown in Tab. \ref{tab:results_action}, \ref{tab:results_role}. The expected number of tracklets performing an action in a videos is treated as the corresponding action score for the video. Similarly, the expected number of tracklets holding a role in a video provides the role score. 
+The action and role classification performance is evaluated by computing the average precision 
+on the testing data as shown in Tab. \ref{tab:results_action}, \ref{tab:results_role}. The expected number of tracklets performing an action in a videos is treated as the corresponding action score for the video. Similarly, the expected number of tracklets holding a role in a video provides the role score. 
 
 Full model refers to the complete algorithm using video descriptions to train
 PR models in a self-paced setting. The different baselines are explained below.
@@ -636,7 +652,7 @@ directly.
  
 
 \subsection{Event classification}
-We compare the event classification performance of our model from Sec.~\ref{sec:event_model} against baseline methods as well as state-of-the-art results from \cite{Izadinia_ECCV12} in Tab.~\ref{tab:results_event}. It is to be noted that unlike our method, \cite{Izadinia_ECCV12} used extensive spatio-temporal annotation to learn completely supervised atomic action classification models. The scores from these models were finally used to perform event classification. We report two sets of results from \cite{Izadinia_ECCV12}, one using action classification scores in linear ensemble SVM and the other using them in a joint CRF model. In addition, we demonstrate results against the following baselines
+We compare the event classification performance of our model from Sec.~\ref{sec:event_model} against baseline methods as well as state-of-the-art results from \cite{Izadinia_ECCV12} in Tab.~\ref{tab:results_event}. It is to be noted that unlike our method, \cite{Izadinia_ECCV12} used extensive spatio-temporal annotation to learn completely supervised atomic action classification models. The prediction probabilities from these models were finally used to perform event classification. We report two sets of results from \cite{Izadinia_ECCV12}, one using action classification scores in linear ensemble SVM and the other using them in a joint CRF model. In addition, we demonstrate results against the following baselines
 
 \vspace*{-3pt}
 \begin{itemize}
@@ -699,7 +715,8 @@ supervision.
 We have presented a method to learn atomic action and role models based on easily available natural language video descriptions. We proposed a language topic-model based semantic relatedness measure to identify positive and negative training examples. These labels were used to train a CRF model with posterior regularization, while making latent action and role assignments to human tracklets. Outliers introduced by the SR measure were handled through a self-paced scheme. The action and role models were used to achieve state-of-the-art event classification performance on the TRECVID-MED11 event kits. We demonstrated the efficacy of the topic model based SR measure in identifying training labels as well as the gain due to the posterior regularized method in a weakly supervised setting without temporal annotations. In future work, we wish to ground action-object relations in complex event videos based on natural language descriptions and simultaneously learn these relation from both textual and visual data.
 
 \section*{Acknowledgements}
-We thank O. Russakovsky, K. Tang and B. Yao for helpful comments. This research is partially supported by the NFS grant ??????.
+We thank O. Russakovsky, K. Tang and B. Yao for helpful comments. This research is partially supported by Intel, 
+the NFS grant $IIS-1115493$ and DARPA-Mind's Eye grant.
 
 
 {\small

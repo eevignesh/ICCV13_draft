@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.10.25)  2 OCT 2013 03:40
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.10.25)  11 OCT 2013 17:37
 entering extended mode
  %&-line parsing enabled.
 **TextActionRoles_cameraReady.tex
@@ -384,12 +384,15 @@ ap}
 
  <../images/pullFigure_2.pdf>]
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 146.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 147.
+
+Underfull \vbox (badness 1694) has occurred while \output is active []
+
  [2 <../images/system_e.pdf>]
 
 Package amsmath Warning: Foreign command \atop;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 282.
+(amsmath)                 on input line 283.
 
 [3]
 
@@ -398,19 +401,21 @@ F version <1.5>, but at most version <1.4> allowed
 <../images/system2b.pdf, id=220, 860.65944pt x 599.47032pt>
 File: ../images/system2b.pdf Graphic file (type pdf)
 
-<use ../images/system2b.pdf> [4 <../images/system2b.pdf>]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 415.
+<use ../images/system2b.pdf>
+Underfull \vbox (badness 1668) has occurred while \output is active []
 
+ [4 <../images/system2b.pdf>]
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 416.
 
-(/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
+ (/usr/share/texmf-texlive/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 415.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 416.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 487.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 488.
 
-Overfull \hbox (4.2042pt too wide) in paragraph at lines 487--488
+Overfull \hbox (4.2042pt too wide) in paragraph at lines 488--489
  [] 
  []
 
@@ -418,10 +423,13 @@ Overfull \hbox (4.2042pt too wide) in paragraph at lines 487--488
 
 pdfTeX warning: pdflatex (file ../images/ARmat2.pdf): PDF inclusion: found PDF 
 version <1.5>, but at most version <1.4> allowed
-<../images/ARmat2.pdf, id=267, 431.6125pt x 665.152pt>
+<../images/ARmat2.pdf, id=266, 431.6125pt x 665.152pt>
 File: ../images/ARmat2.pdf Graphic file (type pdf)
 
-<use ../images/ARmat2.pdf> [5]
+<use ../images/ARmat2.pdf>
+Underfull \vbox (badness 5175) has occurred while \output is active []
+
+ [5]
 
 pdfTeX warning: pdflatex (file ../images/actionRoleSamples.pdf): PDF inclusion:
  found PDF version <1.5>, but at most version <1.4> allowed
@@ -429,7 +437,7 @@ pdfTeX warning: pdflatex (file ../images/actionRoleSamples.pdf): PDF inclusion:
 File: ../images/actionRoleSamples.pdf Graphic file (type pdf)
 
 <use ../images/actionRoleSamples.pdf>
-Overfull \hbox (6.57722pt too wide) in paragraph at lines 565--566
+Overfull \hbox (6.57722pt too wide) in paragraph at lines 566--567
  [][] 
  []
 
@@ -465,13 +473,13 @@ Underfull \hbox (badness 4621) in paragraph at lines 15--15
 []\OT1/ptm/m/n/9 T. Cour, C. Jor-dan, E. Milt-sakaki, and B. Taskar.
  []
 
+[7 <../images/actionPlot.pdf> <../images/rolePlot.pdf>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ì in font ptmr7t!
-[7 <../images/actionPlot.pdf> <../images/rolePlot.pdf>]
 Missing character: There is no ≈ in font ptmr7t!
 Missing character: There is no Ç in font ptmr7t!
 Missing character: There is no ≈ in font ptmr7t!
@@ -481,38 +489,43 @@ Underfull \hbox (badness 3439) in paragraph at lines 120--120
 []\OT1/ptm/m/n/9 M. Rohrbach, M. Reg-neri, M. An-driluka, S. Amin,
  []
 
-) [8 <../images/addedPositives.pdf>] (./TextActionRoles_cameraReady.aux) ) 
+[8 <../images/addedPositives.pdf>]) [9
+
+] (./TextActionRoles_cameraReady.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 5930 strings out of 495061
- 83647 string characters out of 1182620
- 212115 words of memory out of 3000000
+ 5931 strings out of 495061
+ 83653 string characters out of 1182620
+ 211115 words of memory out of 3000000
  8896 multiletter control sequences out of 15000+50000
  34154 words of font info for 81 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  38i,17n,27p,1052b,437s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr
-/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/pub
-lic/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
-s/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/
-type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/tex
-mf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/m
-sbm10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/sh
-are/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fo
-nts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/
-utmri8a.pfb>
-Output written on TextActionRoles_cameraReady.pdf (8 pages, 13425744 bytes).
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/type1/public/
+amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
+nts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/sy
+mbols/msbm10.pfb></usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb><
+/usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-tex
+live/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw
+/times/utmri8a.pfb>
+Output written on TextActionRoles_cameraReady.pdf (9 pages, 13427523 bytes).
 PDF statistics:
- 719 PDF objects out of 1000 (max. 8388607)
- 71 named destinations out of 1000 (max. 500000)
+ 723 PDF objects out of 1000 (max. 8388607)
+ 72 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
