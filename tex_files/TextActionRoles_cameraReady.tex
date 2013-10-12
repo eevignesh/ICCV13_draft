@@ -70,10 +70,11 @@ of roles and actions.
 \centering
    \includegraphics[scale = 0.4]{../images/pullFigure_2.pdf}
       \caption{Our method relies on natural language video descriptions to
-      train action and role models. Sample videos along with their text
-      description are shown. The descriptions of videos containing the action
-      ``play instrument'' are bounded in green.
-      Note that this supervision is not available during training.}
+      train action and role models. Sample videos along with their
+      descriptions are shown.
+      The descriptions of videos containing the action
+      ``play instrument'' are bounded in green,
+      but we do not use action/role labels during training.}
 \label{fig:pull_figure}
 \end{figure}
 % ---------------------------------------------------------------------------------
@@ -93,46 +94,59 @@ and require no annotation at all.
 %accompanying the videos in case of Internet datasets.
 %We exploit such descriptions completely to learn atomic action and role models.
 
-In our setting,
-natural language descriptions provide a high-level summary of the event
-occurring in a video without temporal synchronization. The
-challenges associated with their use are two-fold: 1) the presence of an action
-and role in the video might not be provided directly, and 2) the temporal extents
-of actions and roles are unavailable.
-
-As demonstrated by the positive training examples of the action
-``play instrument'' in Fig.~\ref{fig:pull_figure}, the video description might
-not contain an action string, but still imply its presence (in this
-case through an ``orchestra'' or a ``marching band'').
-Bridging this gap is a fundamental and challenging NLP problem.
-To tackle this, we identify training action and role labels using a semantic
-relatedness (SR) measure between an action or role string, and the textual
-descriptions. We construct a language topic model specific to the task and use it to
-define the SR measure. We also handle outliers introduced by this measure
-through self-paced learning.
+% First
+Unfortunately,
+natural language descriptions only provide a \emph{coarse} high-level summary of the events
+occurring in videos.
+This coarseness leads to two challenges.
+First, the canonical action labels (e.g., ``play instrument'')
+might not appear in the description (e.g., ``church wedding with orchestra'')---see
+Fig.\ref{fig:pull_figure}.
+%As demonstrated by the positive training examples of the action
+%``play instrument'' in Fig.~\ref{fig:pull_figure}, the video description might
+%not contain an action string, but still imply its presence (in this
+%case through an ``orchestra'' or a ``marching band'').
+Bridging the gap between high-level natural language descriptions and low-level action/role labels
+is a challenging problem in natural language semantics.
+To tackle this, we define a new semantic
+relatedness (SR) measure between an action/role label and a natural language description.
+The measure is based on Latent Dirichlet Allocation \cite{???} trained on
+YouTube descriptions.
+%We construct a language topic model specific to the task and use it to
+%define the SR measure.
+%We also handle outliers introduced by this measure
+%through self-paced learning.
 
 % -------- System figure
 \begin{figure*} 
   \includegraphics[scale = 0.44]{../images/system_e.pdf}
-  \caption{An overview of the system. Input to the system are shaded in grey.}
+  \caption{An overview of the system. Inputs to the system are shaded in grey.}
 \label{fig:system}
 \end{figure*}
 % ---------------------------------------------------------------------------------
 
-The lack of temporal annotations is handled through a Posterior Regularization
-(PR) \cite{Ganchev_JMLR10} based training, which lets us represent a video as a
-bag of human tracklets with latent action and role assignments to these
-tracklets. PR allows us to learn a structured model, while enforcing
-constraints regarding the presence or absence of action and role tracklets in
-the training videos. 
+The second challenge is that natural language descriptions do not specify the
+spatiotemporal extents of actions and roles.
+To cope with this missing data, we use the Posterior Regularization
+(PR) framework \cite{Ganchev_JMLR10}.
+Specifically, we represent a video as a
+bag of spatiotemporally-localized human tracklets,
+and define an action and role assignment variable for each tracklet.
+The natural language supervision then imposes a soft constraint
+that at least one of tracklets in the video is assigned to a semantically-related action/role label.
 
-We evaluated our approach on action and role classification,
-as well as event recognition using our action and role models
-which are trained with natural language descriptions.
-On the TRECVID-MED11 event kits,
-our event recognition model is shown to match
-the state-of-the-art method \cite{Izadinia_ECCV12}, which requires
-detailed spatio-temporal annotations of atomic actions.
+%PR allows us to learn enforcing
+%constraints regarding the presence or absence of action and role tracklets in
+%the training videos. 
+
+We first evaluated our approach on action and role classification,
+showing that our SR measure improves accuracy over existing measures.
+We also considered event recognition, where the state-of-the-art method \cite{Izadinia_ECCV12} requires
+detailed spatiotemporal annotations of atomic actions.
+We incorporated our action/role models, which are trained only on natural language descriptions,
+into our event recognition model.
+On the TRECVID-MED11 event kit,
+our model matches \cite{Izadinia_ECCV12} despite using weaker supervision.
 
 %The key contributions of our work can be summarized as follows:
 %\vspace*{-5pt}
@@ -194,8 +208,7 @@ Formally, we denote our training dataset by
 $\left(\langle x_1, t_1 \rangle, \dots , \langle x_n, t_n\rangle \right)$,
 where $x_i$ is a video belonging to different event classes and
 $t_i$ is the corresponding textual description. 
-No textual descriptions are present in the test
-data.
+No textual descriptions are present in the test data.
 
 We assume a fixed set of actions $\mathcal{A}$ and roles $\mathcal{R}$ and define additional variables $\langle y_i, z_i \rangle$ for each $x_i$. 
 Here, $y_i^a \in \{-1,0,1\}$ indicates whether the label of the video corresponding
@@ -401,7 +414,7 @@ We use the same training and testing splits as \cite{Izadinia_ECCV12}.
 We define \textit{crude} action labels $\tilde{y}_i$ and role labels
 $\tilde{z}_i$ for each video $x_i$ based on simple text processing. We set
 $\tilde{y}_i^a = 1$ if $t_i$ contains the action string $a$, $\tilde{y}_i^a =
--1$ if none of the textual descriptions in the event class of $x_i$ contain
+-1$ if none of the natural language descriptions in the event class of $x_i$ contain
 the action string $a$; otherwise, we set $\tilde{y}_i^a=0$. We define
 $\tilde{z}_i^r \in \{-1,0,1\}$ similarly for the video $x_i$ and role $r$.
 These crude labels are used to train baseline models not using the
@@ -589,7 +602,7 @@ corresponding role assignment.
 The wiki SR and topic SR models trained by identifying positives and negatives based on a SR measure are seen to only marginally improve the performance. This can be accounted to the addition of false positive and negative training labels, demonstrating the difficulty in processing natural language descriptions. The results are seen to be worse in the case of Wikipedia based SR measure. %On the other hand, most human roles like ``bride, groom, priest'' do not have a varied representation in video descriptions. This is reflected in the similar performances of both the SR measures for role classification. 
 
 To analyze the utility of our topic model, we run experiments 
-where textual descriptions are assumed to be present both
+where natural language descriptions are assumed to be present both
 during training and testing. We train two separate PR models which use topic
 model based textual features and Wikipedia SR based textual features
 respectively as additional global features both during training and testing.
@@ -604,8 +617,8 @@ generic corpus and lack of dimensionality reduction to consider concepts
 specific to the task.
 
 Further, note that in our adaptation of the self-paced approach, 
-while textual descriptions are not available during testing, 
-we use features extracted from textual descriptions in the initial iterations of training, 
+while natural language descriptions are not available during testing, 
+we use features extracted from natural language descriptions in the initial iterations of training, 
 and finally anneal their weights to zero. The effectiveness of our textual features as shown in Fig.~\ref{fig:action_role_text} allows us to 
 handle outliers introduced by the SR measure.
 
@@ -619,7 +632,7 @@ handle outliers introduced by the SR measure.
    \subfigure[roles]{
    \includegraphics[scale = 0.35]{../images/rolePlot.pdf}
    }
-      \caption{The green bars correspond to the setting where textual descriptions are
+      \caption{The green bars correspond to the setting where natural language descriptions are
       used at test time. The red bars
       are from Tab.~\ref{tab:results_action}, \ref{tab:results_role}.}
 \label{fig:action_role_text}
