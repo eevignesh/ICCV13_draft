@@ -44,11 +44,11 @@ State-of-the-art methods learn action and role models from detailed spatio-tempo
 which requires extensive human effort. 
 In this work, we propose a method to learn such models based on natural language descriptions of the training videos, 
 which are easier to collect and scale with the number of actions and roles. 
-There are two challenges with using this form of supervision: First, these descriptions only provide a high-level summary 
+There are two challenges with using this form of weak supervision: First, these descriptions only provide a high-level summary 
 and often do not directly mention the actions and roles occurring in a video. 
-Second, natural language descriptions do not provide temporal annotations of actions and roles. 
+Second, natural language descriptions do not provide spatio-temporal annotations of actions and roles. 
 To tackle these challenges, we introduce a topic-based semantic relatedness (SR) measure between a video description 
-and an action and role string, and train the model using posterior regularization. 
+and an action and role string, and incorporate it into a posterior regularization objective. 
 Our event recognition system based on these action and role models matches the state-of-the-art method on 
 the TRECVID-MED11 event kit, despite weaker supervision. %detailed spatio-temporal annotations
 \end{abstract}
@@ -56,13 +56,14 @@ the TRECVID-MED11 event kit, despite weaker supervision. %detailed spatio-tempor
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 The ability to differentiate complex events is a key step towards video
-understanding and has warranted significant research in recent years
+understanding and has spurred significant research in recent years
 \cite{Merler_ITM12, Izadinia_ECCV12, Rohrbach_ECCV12}. Complex
-events can be thought of as a composition of atomic actions performed by
+events can be thought of as compositions of atomic actions performed by
 people holding different roles. In this work, we provide a method to
-learn these action and role models based on easily available natural language
-descriptions of event videos as shown in Fig.~\ref{fig:pull_figure}. We rely
-entirely on these descriptions and do not require separate ground truth annotations.
+learn these action and role models based on easily obtainable natural language
+descriptions of event videos (see Fig.~\ref{fig:pull_figure}). We rely
+entirely on these descriptions and do not require separate ground truth annotations
+of roles and actions.
 
 % -------- System figure
 \begin{figure}[ht!]
@@ -80,14 +81,14 @@ entirely on these descriptions and do not require separate ground truth annotati
 The use of action and/or role models trained with extensive spatio-temporal
 annotations has shown to boost event recognition performance in videos
 \cite{Izadinia_ECCV12, Lan_CVPR12}. Such detailed annotations require expensive
-human effort and severely restrict the scalability with inclusion of more
+human effort and severely restrict the scalability with the inclusion of more
 actions and roles.
-Complex event datasets like TRECVID-MED11 \cite{MED11} and \textit{MPII} Cooking
+On the other hand, complex event datasets like TRECVID-MED11 \cite{MED11} event kit and \textit{MPII} Cooking
 \cite{Regneri_TACL13} are accompanied by natural language descriptions,
-which are easy to obtain and require one-time annotation during the
+which are easy to obtain and incur only a one-time annotation cost during the
 collection of a dataset.
 Internet repositories such as YouTube already have accompanying descriptions,
-and require no additional annotation.
+and require no annotation at all.
 %they can be gathered from the text
 %accompanying the videos in case of Internet datasets.
 %We exploit such descriptions completely to learn atomic action and role models.
